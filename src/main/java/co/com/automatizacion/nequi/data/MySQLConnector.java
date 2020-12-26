@@ -56,6 +56,17 @@ public class MySQLConnector {
         return result;
     }
 
+    public int insertQuery(String query) {
+        int result = 0;
+        try {
+            result = statement.executeUpdate(query);
+
+        } catch (SQLException throwables) {
+            LogWriter.dbErrorLog("Unable to execute the query: '" + query + "'\n" + throwables.getMessage());
+        }
+        return result;
+    }
+
     public int tableRowCount(String table) {
         ResultSet countResult = null;
         String sqlQuery = String.format("SELECT COUNT(*) from %s", table);

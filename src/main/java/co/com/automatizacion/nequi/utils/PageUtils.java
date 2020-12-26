@@ -88,12 +88,12 @@ public class PageUtils {
             if(driverType.contains("firefox")) {
                 WebDriverManager.firefoxdriver().setup();
                 driver = new FirefoxDriver();
-                wait = new WebDriverWait(driver, 10);
+                wait = new WebDriverWait(driver, 300);
             }
             else {
                 WebDriverManager.chromedriver().setup();
                 driver = new ChromeDriver();
-                wait = new WebDriverWait(driver, 10);
+                wait = new WebDriverWait(driver, 300);
             }
         }
         else if(driverType.contains("remote")) {
@@ -113,7 +113,7 @@ public class PageUtils {
 
                 String url = "http://" + host + ":4444/wd/hub";
                 driver = new RemoteWebDriver(new URL(url), desiredCapabilities);
-                wait = new WebDriverWait(driver, 10);
+                wait = new WebDriverWait(driver, 300);
             }catch (Exception e) {
                 LogWriter.testErrorLog("Error al iniciar el webdriver" + e.getMessage());
             }
@@ -125,11 +125,21 @@ public class PageUtils {
         return driver;
     }
 
+    public void pause(int seconds) {
+        LogWriter.pageInfoLog("Haciendo una pausa");
+        try {
+            Thread.sleep(seconds*1000);
+        } catch (InterruptedException e) {
+            LogWriter.dbErrorLog("Ocurrio un error al hacer una pausa"+e);
+        }
+    }
+
     public void openMainPage() {
         LogWriter.pageInfoLog("Ingresando a la pagina principal");
+        String paginaPrincipal = PageUtils.getPropertyValue("url.nequi.main.page");
 
         try {
-            driver.get("https://demo.nopcommerce.com/");
+            driver.get(paginaPrincipal);
             driver.manage().window().maximize();
         }catch (Exception e) {
             LogWriter.testErrorLog("Error al tratar de ingresar a la pagina principal" + e.getMessage());
@@ -218,6 +228,7 @@ public class PageUtils {
         if(makeScreenshot) {
             takeScreenshot();
         }
+        waitUntil(element);
         return element.isDisplayed();
     }
 
