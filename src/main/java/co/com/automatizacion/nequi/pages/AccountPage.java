@@ -7,8 +7,21 @@ import org.openqa.selenium.support.PageFactory;
 
 public class AccountPage {
 
+    @FindBy(xpath = "//div[@class='welcome-box-info']/h3")
+    WebElement balancesTitle;
+
+    @FindBy(xpath = "//div[contains(@class, 'row-balance')]//p[contains(., 'Bolsillo')]")
+    WebElement bolsillosTitle;
+
     public AccountPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
     }
 
+    public WebElement getBalancesTitle() {
+        return balancesTitle;
+    }
+
+    public WebElement getBolsillosTitle() {
+        return bolsillosTitle;
+    }
 }

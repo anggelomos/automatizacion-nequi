@@ -8,25 +8,11 @@ import org.openqa.selenium.support.PageFactory;
 
 public class HomePage {
 
-    @FindBy(css = "a[href='/computers']")
-    WebElement computersMenu;
-
-    @FindBy(css = "a[href='/register?returnUrl=%2F']")
-    WebElement registerMenu;
-
-    @FindBy(css = "a[href='/login?returnUrl=%2F']")
+    @FindBy(id = "menu-item-15")
     WebElement loginMenu;
 
     public HomePage(WebDriver driver) {
         PageFactory.initElements(driver, this);
-    }
-
-    public WebElement getComputersMenu() {
-        return computersMenu;
-    }
-
-    public WebElement getRegisterMenu() {
-        return registerMenu;
     }
 
     public WebElement getLoginMenu() {
