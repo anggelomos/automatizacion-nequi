@@ -10,5 +10,5 @@ Característica: Automatizacion Nequi
 
   Escenario: Extraer la informacion de la pagina principal
     Cuando ingreso a la pagina principal
-    Entonces extraigo la información requerida
+    Entonces extraigo la informacion requerida
     Y la subo a la base de datos
