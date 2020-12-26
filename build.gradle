@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+}
+
+group 'io.anggelomos'
+version '0.1'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile 'org.seleniumhq.selenium:selenium-java:3.141.59'
+    compile 'io.github.bonigarcia:webdrivermanager:4.2.2'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.0'
+    compile 'mysql:mysql-connector-java:8.0.20'
+    compile 'io.github.prashant-ramcharan:courgette-jvm:5.8.0'
+    compile(group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2')
+}
+
+shadowJar {
+    mergeServiceFiles()
+    from sourceSets.test.output.classesDirs
+    configurations = [project.configurations.testRuntime]
+}
+
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+task testJar(type: ShadowJar) {
+    from sourceSets.test.output
+    configurations = [project.configurations.testRuntime]
+}
+
+task uberTestJar(type: Jar) {
+    dependsOn testClasses
+    sourceSets.main.output.each {
+        from it
+    }
+    sourceSets.test.output.each {
+        from it
+    }
+    configurations.testRuntime.each { File f ->
+        if (f.name.endsWith('.jar')) {
+            from zipTree(f)
+        } else {
+            from f
+        }
+    }
+}
